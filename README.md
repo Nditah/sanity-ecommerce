@@ -69,3 +69,5 @@ https://github.com/adrianhajdin/ecommerce_sanity_stripe
 sanity manage to copy clients conig credentials
 
 https://jsonformatter.org/json-to-typescript
+
+Backend: https://telixia-ecommerce.sanity.studio/
