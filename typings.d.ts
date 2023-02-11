@@ -38,6 +38,8 @@ type Asset = {
     slug:       Slug;
 }
 
+type CartItem = IProduct & { quantity: number }
+
 type Image = {
     _key?:  string;
     _type: string;
