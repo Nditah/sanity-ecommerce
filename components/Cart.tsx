@@ -1,16 +1,16 @@
 import React, { useRef, useState } from 'react'
+import Link from 'next/link'
 import { AiOutlineMinus, AiOutlinePlus, AiOutlineShopping } from 'react-icons/ai'
 import { TfiAngleDoubleLeft, TfiAngleDoubleRight } from 'react-icons/tfi'
 import { TiDeleteOutline} from 'react-icons/ti'
 import { toast } from 'react-hot-toast'
 import { urlFor } from 'lib/client'
 import { useStateContext } from 'context/StateContext';
-import Link from 'next/link'
 
 const Cart = () => {
   const cartRef = useRef<HTMLInputElement>(null)
   const [closeIntent, setCloseIntent] = useState(false)
-  const { cartItems, setShowCart, totalQuantities } = useStateContext();
+  const { cartItems, setShowCart, totalQuantities, totalPrice, onRemove, toggleCartItemQuantity } = useStateContext();
   const handler = () => {
     console.log('Click cart')
   }
@@ -31,7 +31,7 @@ const Cart = () => {
             <div className='empty-cart'>
               <AiOutlineShopping size={150} />
               <h3>Your shopping bag is empty</h3>
-              <Link href={`/`}>
+              <Link href={`/`} legacyBehavior>
                 <button type='button' className='btn' onClick={() => setShowCart(false)}>
                   Continue Shopping
                 </button>
@@ -53,13 +53,13 @@ const Cart = () => {
                 <div className='flex bottom'>
                   <div>
                   <p className='quantity-desc'>
-                    <span className='minus' onClick={() => handler}><AiOutlineMinus /></span>
-                    <span className='num'  > {1} </span>
-                    <span className='plus' onClick={() => handler}><AiOutlinePlus /></span>
+                    <span className='minus' onClick={() => toggleCartItemQuantity(item._id, 'dec')}><AiOutlineMinus /></span>
+                    <span className='num'  > {item.quantity} </span>
+                    <span className='plus' onClick={() => toggleCartItemQuantity(item._id, 'inc')}><AiOutlinePlus /></span>
                   </p>
                   </div>
 
-                  <button type='button' className='remove-item' onClick={() => handler}>
+                  <button type='button' className='remove-item' onClick={() => onRemove(item)}>
                     <TiDeleteOutline />
                   </button>
                 </div>
@@ -69,6 +69,23 @@ const Cart = () => {
         }
 
         </div>
+
+        {
+          cartItems.length > 0 &&  (
+            <div className='cart-bottom'>
+              <div className='total'>
+                <h3>Subtotal: </h3>
+                <h3>${totalPrice}</h3>
+              </div>
+              <div className='btn-container'>
+                <button type='button' className='btn' onClick={handler}>
+                  Pay with Stripe
+                </button>
+              </div>
+            </div>
+          )
+        }
+
 
       </div>
     </div>

@@ -11,7 +11,7 @@ const Layout = ({ children }: PropType) => {
   return (
     <div className='layout'>
       <Head>
-        <title>Sanity Ecommerce</title>
+        <title>Telixia Ecommerce</title>
       </Head>
       <header>
         <Navbar />
