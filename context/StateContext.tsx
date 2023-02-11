@@ -8,9 +8,13 @@ interface IContextProps {
     totalPrice: number
     totalQuantities: number
     quantity: number
+    setCartItems: (arr: Array<CartItem>) => void
+    setTotalPrice: (x: number) => void
+    setTotalQuantities: (x: number) => void
     setShowCart: (x: boolean) => void
     incQuantity: () => void
     decQuantity: () => void
+    setQuantity: (x: number) => void
     onAdd: (product: IProduct, quantity: number) => void
     onRemove: (product: CartItem) => void
     toggleCartItemQuantity: (id: string, value: 'inc' | 'dec') => void
@@ -133,9 +137,13 @@ export const StateContext = ({ children }: any) => {
                 totalPrice,
                 totalQuantities,
                 quantity,
+                setCartItems,
+                setTotalPrice,
+                setTotalQuantities,
                 setShowCart,
                 incQuantity,
                 decQuantity,
+                setQuantity,
                 onAdd,
                 onRemove,
                 toggleCartItemQuantity,

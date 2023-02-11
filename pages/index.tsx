@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import { client } from 'lib/client'
+import { client } from 'lib/sanity-client'
 import {
   Cart,
   Footer,
@@ -17,10 +17,10 @@ type PropType = {
 }
 
 const Home = ({ products, bannerData }: PropType) => {
-  console.log({ products, bannerData }); 
+  console.log({ products, bannerData });
   return (
     <div>
-     {bannerData.length > 0 && <HeroBanner heroBanner={bannerData[0]} />}
+      {bannerData.length > 0 && <HeroBanner heroBanner={bannerData[0]} />}
 
       <div className='products-heading'>
         <h2>Best Seeling Product</h2>
@@ -29,11 +29,11 @@ const Home = ({ products, bannerData }: PropType) => {
 
       <div className='products-container'>
         {
-          products.map((product: IProduct) => <Product key={product._id} product = {product} /> )
+          products.map((product: IProduct) => <Product key={product._id} product={product} />)
         }
       </div>
 
-      {bannerData.length > 0 && <FooterBanner footerData = {bannerData[0]} />}
+      {bannerData.length > 0 && <FooterBanner footerData={bannerData[0]} />}
     </div>
   )
 }

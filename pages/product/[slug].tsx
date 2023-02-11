@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { AiOutlineMinus, AiOutlinePlus, AiFillStar, AiOutlineStar } from 'react-icons/ai'
-import { client, urlFor } from 'lib/client'
+import { client, urlFor } from 'lib/sanity-client'
 import { Product } from 'components';
 import { useStateContext } from 'context/StateContext';
 
@@ -12,10 +12,16 @@ type PropType = {
 const ProductDetails = ({ product, products }: PropType) => {
   const { image, name, details, price } = product
   const [imageIndex, setImageIndex] = useState(0)
-  const { quantity, incQuantity, decQuantity, onAdd } = useStateContext()
- 
+  const { quantity, setQuantity, incQuantity, decQuantity, onAdd, setShowCart } = useStateContext()
+  
+  
+  useEffect(() => {
+    setQuantity(1)
+  }, [product])
+
   const handleBuyNow = () => {
-    console.log('handleBuyNow')
+    onAdd(product, quantity)
+    setShowCart(true)
   }
 
   return (
@@ -31,8 +37,8 @@ const ProductDetails = ({ product, products }: PropType) => {
             {image.length > 0 && image.map((item, i) => (
               <img alt='' key={`${i}`}
                 src={`${urlFor(item)}`}
-                className={i === imageIndex ? 'small-image selected-image' : 'small-image' }
-                onMouseEnter={() => setImageIndex (i)}
+                className={i === imageIndex ? 'small-image selected-image' : 'small-image'}
+                onMouseEnter={() => setImageIndex(i)}
               />
             ))}
           </div>
@@ -69,20 +75,20 @@ const ProductDetails = ({ product, products }: PropType) => {
             <button type='button' className='add-to-cart' onClick={() => onAdd(product, quantity)}>Add to Cart</button>
             <button type='button' className='buy-now' onClick={handleBuyNow}>Buy Now</button>
           </div>
-          
+
         </div>
 
       </div>
 
-      <div  className='maylike-products-wrapper'>
-            <h2>You may also like</h2>
-            <div className='marquee'>
-              <div className='maylike-products-container track'>
-                {
-                  products.map((item) => <Product key={item._id} product={item} />)
-                }
-              </div>
-            </div>
+      <div className='maylike-products-wrapper'>
+        <h2>You may also like</h2>
+        <div className='marquee'>
+          <div className='maylike-products-container track'>
+            {
+              products.map((item) => <Product key={item._id} product={item} />)
+            }
+          </div>
+        </div>
       </div>
     </div>
   )
@@ -111,4 +117,3 @@ export const getStaticProps = async ({ params: { slug } }: PropType2) => {
 
   return { props: { product, products } }
 }
-
